@@ -14,8 +14,8 @@ Umbra — это многофункциональный инструмент р�
 
 ## 🔧 Установка
 ```
-git clone https://github.com/maxpaymetov/umbra.git
-cd umbra
+git clone https://github.com/maxpaymetov/Umbra
+cd Umbra
 pip install -r requirements.txt
 python3 main.py
 ```
