@@ -2,7 +2,7 @@ phonenumbers
 requests
 colorama
 beautifulsoup4
-whois
+python-whois
 faker
 scapy
 ipwhois
