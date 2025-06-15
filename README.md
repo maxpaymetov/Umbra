@@ -16,6 +16,6 @@ Umbra — это многофункциональный инструмент р�
 ```
 git clone https://github.com/maxpaymetov/Umbra
 cd Umbra
-pip install -r requirements.txt
-python3 main.py
+sudo pip3 install -r requirements.txt
+sudo python3 main.py
 ```
