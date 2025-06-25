@@ -4,5 +4,5 @@ colorama
 beautifulsoup4
 python-whois
 faker
-scapy
+scapy==2.4.5
 ipwhois
