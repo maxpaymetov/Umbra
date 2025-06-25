@@ -31,4 +31,4 @@ sudo python3 main.py
 ```
 pip3 show scapy
 ```
-Если 2.4.5 - всё ок
+- Если 2.4.5 - всё ок
