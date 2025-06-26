@@ -594,37 +594,49 @@ def shadow_network_monitor(interface):
             dport = pkt[TCP].dport
             flags = pkt[TCP].flags
 
-            # Определяем тип пакета по флагам
-            # PA = PSH + ACK (Push + Acknowledge)
-            # A = ACK только
+            # В scapy 2.4.5 flags — это числовая битовая маска
+            TCP_FIN = 0x01
+            TCP_SYN = 0x02
+            TCP_RST = 0x04
+            TCP_PSH = 0x08
+            TCP_ACK = 0x10
+
+            fin_set = (flags & TCP_FIN) != 0
+            syn_set = (flags & TCP_SYN) != 0
+            rst_set = (flags & TCP_RST) != 0
+            psh_set = (flags & TCP_PSH) != 0
+            ack_set = (flags & TCP_ACK) != 0
+
             flag_desc = ""
             color = Fore.WHITE
 
-            # Флаги в Scapy — это объект, можно конвертировать в строку
-            flag_str = str(flags)
-
-            if "P" in flag_str and "A" in flag_str:
+            if psh_set and ack_set:
                 flag_desc = "PA (Push+ACK)"
                 color = Fore.LIGHTMAGENTA_EX
-            elif "A" in flag_str and len(flag_str) == 1:
+            elif ack_set and not psh_set and not syn_set and not fin_set and not rst_set:
                 flag_desc = "A (ACK)"
                 color = Fore.LIGHTCYAN_EX
-            elif "S" in flag_str:
+            elif syn_set:
                 flag_desc = "SYN (start)"
                 color = Fore.LIGHTBLUE_EX
-            elif "F" in flag_str:
+            elif fin_set:
                 flag_desc = "FIN (finish)"
                 color = ORANGE
-            elif "R" in flag_str:
+            elif rst_set:
                 flag_desc = "RST (reset)"
                 color = Fore.LIGHTRED_EX
             else:
-                flag_desc = f"FLAGS: {flag_str}"
+                flags_list = []
+                if fin_set: flags_list.append("F")
+                if syn_set: flags_list.append("S")
+                if rst_set: flags_list.append("R")
+                if psh_set: flags_list.append("P")
+                if ack_set: flags_list.append("A")
+                flag_desc = "FLAGS: " + "".join(flags_list)
                 color = Fore.LIGHTGREEN_EX
 
             packet_str = f"{color}[{flag_desc}] {ip_src}:{sport}  -->  {ip_dst}:{dport}"
 
-            # Проверяем, не совпадает ли с предыдущим выводом
             if packet_str != last_packet_str:
                 print(packet_str)
                 last_packet_str = packet_str
