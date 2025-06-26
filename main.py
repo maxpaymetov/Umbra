@@ -578,8 +578,10 @@ def port_scanner():
             sock.settimeout(0.5)
             result = sock.connect_ex((ip, port))
             if result == 0:
+             time.sleep(1)
                 print(Fore.GREEN + f"[+] Порт {port} — открыт")
             else:
+             time.sleep(1)
                 print(Fore.RED + f"[-] Порт {port} — закрыт")
 
 def shadow_network_monitor(interface):
